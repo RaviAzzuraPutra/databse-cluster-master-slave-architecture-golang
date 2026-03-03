@@ -15,4 +15,6 @@ type Cases struct {
 	Location         *string   `json:"location"`
 	CreatedAt        time.Time `gorm:"column:created_at"`
 	UpdatedAt        time.Time `gorm:"column:updated_at"`
+
+	Suspects []Suspects `json:"suspects" gorm:"foreignKey:Case_ID"`
 }
