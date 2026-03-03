@@ -23,6 +23,6 @@ type Suspects_Response struct {
 	Full_Name      *string   `json:"full_name"`
 	Address        *string   `json:"address"`
 	Alibi          *string   `json:"alibi"`
-	CreatedAt      time.Time `json:"column:created_at"`
-	UpdatedAt      time.Time `json:"column:updated_at"`
+	CreatedAt      time.Time `json:"created_at"`
+	UpdatedAt      time.Time `json:"updated_at"`
 }
