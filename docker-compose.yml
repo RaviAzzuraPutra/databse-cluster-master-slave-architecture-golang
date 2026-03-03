@@ -1,0 +1,108 @@
+services:
+  crime_master_postgresql:
+    image: bitnami/postgresql:latest
+    container_name: crime_master_db
+    restart: unless-stopped
+    command: /opt/bitnami/scripts/postgresql/run.sh
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=${REPL_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${REPL_PASS}
+      - POSTGRESQL_USERNAME=${DB_USER}
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+      - POSTGRESQL_DATABASE=${DB_NAME}
+    ports:
+      - "${PORT_MASTER}:${DB_PORT}"
+    volumes:
+      - ./postgres/INIT.sql:/docker-entrypoint-initdb.d/INIT.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 11s
+      timeout: 6s
+      retries: 7
+    networks:
+      - app_network
+
+  crime_cases_postgresql:
+    image: bitnami/postgresql:latest
+    container_name: crime_cases_slave
+    restart: unless-stopped
+    command: /opt/bitnami/scripts/postgresql/run.sh
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_MASTER_HOST=${MASTER_HOST}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${DB_PORT}
+      - POSTGRESQL_REPLICATION_USER=${REPL_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${REPL_PASS}
+      - POSTGRESQL_MASTER_ROOT_PASSWORD=${DB_PASSWORD} 
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "${PORT_SLAVE_CASES}:${DB_PORT}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 11s
+      timeout: 6s
+      retries: 7
+    networks:
+      - app_network
+    depends_on:
+      crime_master_postgresql:
+        condition: service_healthy
+
+  crime_suspects_postgresql:
+    image: bitnami/postgresql:latest
+    container_name: crime_suspects_slave
+    restart: unless-stopped
+    command: /opt/bitnami/scripts/postgresql/run.sh
+    environment:
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_MASTER_HOST=${MASTER_HOST}
+      - POSTGRESQL_MASTER_PORT_NUMBER=${DB_PORT}
+      - POSTGRESQL_REPLICATION_USER=${REPL_USER}
+      - POSTGRESQL_REPLICATION_PASSWORD=${REPL_PASS}
+      - POSTGRESQL_MASTER_ROOT_PASSWORD=${DB_PASSWORD} 
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "${PORT_SLAVE_SUSPECTS}:${DB_PORT}"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 11s
+      timeout: 6s
+      retries: 7
+    networks:
+      - app_network
+    depends_on:
+      crime_master_postgresql:
+        condition: service_healthy
+
+  crime_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: crime_app:latest
+    container_name: crime_app
+    restart: unless-stopped
+    ports: 
+      - ${APP_PORT}:${APP_PORT}
+    environment:
+      - MASTER_HOST=${MASTER_HOST}
+      - SLAVE1_HOST=${SLAVE1_HOST}
+      - SLAVE2_HOST=${SLAVE2_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_SSLMODE=${DB_SSLMODE}
+      - DB_TIMEZONE=${DB_TIMEZONE}
+      - APP_PORT=:${APP_PORT}
+    networks:
+      - app_network
+    depends_on:
+      crime_master_postgresql:
+        condition: service_healthy
+      crime_cases_postgresql:
+        condition: service_healthy
+
+networks:
+  app_network:
+    driver: bridge
