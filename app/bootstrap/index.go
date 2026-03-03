@@ -4,6 +4,8 @@ import (
 	"databse-cluster-master-slave-architecture-golang/app/config"
 	"databse-cluster-master-slave-architecture-golang/app/config/app_config"
 	"databse-cluster-master-slave-architecture-golang/app/database"
+	"databse-cluster-master-slave-architecture-golang/app/registry/cases_registry"
+	"databse-cluster-master-slave-architecture-golang/app/router/cases_router"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -22,6 +24,10 @@ func InitAPP() {
 			"Message": "The application is running well. 💮",
 		})
 	})
+
+	CasesModule := cases_registry.Case_Registry()
+
+	cases_router.CasesRouter(app, CasesModule.Cases_Controller)
 
 	app.Run(app_config.PORT)
 }
