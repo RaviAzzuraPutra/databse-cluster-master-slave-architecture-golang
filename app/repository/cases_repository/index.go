@@ -13,9 +13,10 @@ type Cases_Repository struct {
 }
 
 func NewCasesRepositoryRegistry() *Cases_Repository {
+	dbCluster := database.GetInstanceDbCluster()
 	return &Cases_Repository{
-		master: database.Connect().Master,
-		slave:  database.Connect().SlaveCases,
+		master: dbCluster.Master,
+		slave:  dbCluster.SlaveCases,
 	}
 }
 

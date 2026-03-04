@@ -13,9 +13,11 @@ type Suspect_Repository struct {
 }
 
 func NewSuspectRepositoryRegistry() *Suspect_Repository {
+
+	dbCluster := database.GetInstanceDbCluster()
 	return &Suspect_Repository{
-		master: database.Connect().Master,
-		slave2: database.Connect().SlaveSuspects,
+		master: dbCluster.Master,
+		slave2: dbCluster.SlaveSuspects,
 	}
 }
 

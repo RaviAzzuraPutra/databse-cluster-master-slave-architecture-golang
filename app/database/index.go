@@ -15,6 +15,8 @@ type DB_Cluster struct {
 	SlaveSuspects *gorm.DB
 }
 
+var dbCluster *DB_Cluster
+
 func Connect() *DB_Cluster {
 
 	var ErrorConnect error
@@ -59,10 +61,6 @@ func Connect() *DB_Cluster {
 		panic("Failed to Migrate Database!! " + errMigrate.Error())
 	}
 
-	if errMigrate == nil && ErrorConnect == nil {
-		fmt.Println("Successfully Connected to Database")
-	}
-
 	fmt.Println("=========================================")
 	fmt.Println("🚀 Database Cluster Status:")
 	fmt.Println("✅ Master Connection: OK!")
@@ -71,9 +69,18 @@ func Connect() *DB_Cluster {
 	fmt.Println("✅ Auto Migration: Success!")
 	fmt.Println("=========================================")
 
-	return &DB_Cluster{
+	dbCluster = &DB_Cluster{
 		Master:        master,
 		SlaveCases:    slave1,
 		SlaveSuspects: slave2,
 	}
+
+	return dbCluster
+}
+
+func GetInstanceDbCluster() *DB_Cluster {
+	if dbCluster == nil {
+		panic("Database cluster is not initialized. Please call Connect() first.")
+	}
+	return dbCluster
 }
