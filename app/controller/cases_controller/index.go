@@ -19,6 +19,19 @@ func NewCasesControllerRegistry(cases_service cases_service_interface.Cases_Serv
 	}
 }
 
+// @Summary Create a new case
+// @Description Create a new case with title, description, incident date, and location
+// @Tags Cases
+// @Accept application/x-www-form-urlencoded
+// @Produce json
+// @Param case_title formData string true "Case Title"
+// @Param case_description formData string true "Case Description"
+// @Param incident_date formData string true "Incident Date (YYYY-MM-DD)"
+// @Param location formData string true "Case Location"
+// @Success 201 {object} map[string]interface{} "Success Create Case"
+// @Failure 404 {object} map[string]interface{} "Bad Request"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/create [post]
 func (c *Cases_Controller) Create(ctx *gin.Context) {
 
 	request := new(cases_request.Cases_Request)
@@ -64,6 +77,13 @@ func (c *Cases_Controller) Create(ctx *gin.Context) {
 	})
 }
 
+// @Summary Get all cases
+// @Description Retrieve all cases from the database
+// @Tags Cases
+// @Produce json
+// @Success 200 {object} map[string]interface{} "Success Get Cases"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases [get]
 func (c *Cases_Controller) GetAll(ctx *gin.Context) {
 
 	cases, errGet := c.service.GetAll()
@@ -90,6 +110,14 @@ func (c *Cases_Controller) GetAll(ctx *gin.Context) {
 
 }
 
+// @Summary Get case by ID
+// @Description Retrieve a specific case using its UUID
+// @Tags Cases
+// @Produce json
+// @Param id path string true "Case ID (UUID)"
+// @Success 200 {object} map[string]interface{} "Success Get Case By Id"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/{id} [get]
 func (c *Cases_Controller) GetById(ctx *gin.Context) {
 
 	id := ctx.Param("id")
@@ -118,6 +146,14 @@ func (c *Cases_Controller) GetById(ctx *gin.Context) {
 
 }
 
+// @Summary Get case by case number
+// @Description Retrieve a case using its case number
+// @Tags Cases
+// @Produce json
+// @Param number path string true "Case Number"
+// @Success 200 {object} map[string]interface{} "Success Get Case By Case Number"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/case-number/{number} [get]
 func (c *Cases_Controller) GetByCaseNumber(ctx *gin.Context) {
 
 	case_number := ctx.Param("number")
@@ -146,6 +182,20 @@ func (c *Cases_Controller) GetByCaseNumber(ctx *gin.Context) {
 
 }
 
+// @Summary Update a case
+// @Description Update an existing case with new title, description, incident date, and location
+// @Tags Cases
+// @Accept application/x-www-form-urlencoded
+// @Produce json
+// @Param id path string true "Case ID (UUID)"
+// @Param case_title formData string true "Case Title"
+// @Param case_description formData string true "Case Description"
+// @Param incident_date formData string true "Incident Date (YYYY-MM-DD)"
+// @Param location formData string true "Case Location"
+// @Success 200 {object} map[string]interface{} "Success Update Case"
+// @Failure 404 {object} map[string]interface{} "Bad Request"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/update/{id} [put]
 func (c *Cases_Controller) Update(ctx *gin.Context) {
 
 	id := ctx.Param("id")
@@ -194,6 +244,14 @@ func (c *Cases_Controller) Update(ctx *gin.Context) {
 
 }
 
+// @Summary Delete a case
+// @Description Delete a case by its ID
+// @Tags Cases
+// @Produce json
+// @Param id path string true "Case ID (UUID)"
+// @Success 200 {object} map[string]interface{} "Success Delete Case"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/delete/{id} [delete]
 func (c *Cases_Controller) Delete(ctx *gin.Context) {
 
 	id := ctx.Param("id")

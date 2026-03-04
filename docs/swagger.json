@@ -1,0 +1,566 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/cases": {
+            "get": {
+                "description": "Retrieve all cases from the database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cases"
+                ],
+                "summary": "Get all cases",
+                "responses": {
+                    "200": {
+                        "description": "Success Get Cases",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cases/case-number/{number}": {
+            "get": {
+                "description": "Retrieve a case using its case number",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cases"
+                ],
+                "summary": "Get case by case number",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case Number",
+                        "name": "number",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get Case By Case Number",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cases/create": {
+            "post": {
+                "description": "Create a new case with title, description, incident date, and location",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cases"
+                ],
+                "summary": "Create a new case",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case Title",
+                        "name": "case_title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Case Description",
+                        "name": "case_description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Incident Date (YYYY-MM-DD)",
+                        "name": "incident_date",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Case Location",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success Create Case",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cases/delete/{id}": {
+            "delete": {
+                "description": "Delete a case by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cases"
+                ],
+                "summary": "Delete a case",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Delete Case",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cases/update/{id}": {
+            "put": {
+                "description": "Update an existing case with new title, description, incident date, and location",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cases"
+                ],
+                "summary": "Update a case",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Case Title",
+                        "name": "case_title",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Case Description",
+                        "name": "case_description",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Incident Date (YYYY-MM-DD)",
+                        "name": "incident_date",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Case Location",
+                        "name": "location",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Update Case",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "404": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cases/{id_case}/suspects": {
+            "get": {
+                "description": "Retrieve all suspects for a specific case",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Suspects"
+                ],
+                "summary": "Get all suspects",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id_case",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get Suspect Data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new suspect for a specific case",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Suspects"
+                ],
+                "summary": "Create a new suspect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id_case",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID Card Number",
+                        "name": "id_card_number",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Full Name",
+                        "name": "full_name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Address",
+                        "name": "address",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Alibi",
+                        "name": "alibi",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success Create Suspect",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cases/{id_case}/suspects/{id}": {
+            "get": {
+                "description": "Retrieve a specific suspect from a case",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Suspects"
+                ],
+                "summary": "Get suspect by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id_case",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Suspect ID (UUID)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get Suspect Data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing suspect information",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Suspects"
+                ],
+                "summary": "Update suspect data",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id_case",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Suspect ID (UUID)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "ID Card Number",
+                        "name": "id_card_number",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Full Name",
+                        "name": "full_name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Address",
+                        "name": "address",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Alibi",
+                        "name": "alibi",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Update Suspect Data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a suspect from a case",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Suspects"
+                ],
+                "summary": "Delete suspect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id_case",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Suspect ID (UUID)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Delete Suspect Data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        },
+        "/api/cases/{id}": {
+            "get": {
+                "description": "Retrieve a specific case using its UUID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Cases"
+                ],
+                "summary": "Get case by ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Case ID (UUID)",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get Case By Id",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

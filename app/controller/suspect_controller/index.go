@@ -18,6 +18,20 @@ func NewSuspectControllerRegistry(suspect_service suspect_service_interface.Susp
 	}
 }
 
+// @Summary Create a new suspect
+// @Description Create a new suspect for a specific case
+// @Tags Suspects
+// @Accept application/x-www-form-urlencoded
+// @Produce json
+// @Param id_case path string true "Case ID (UUID)"
+// @Param id_card_number formData string true "ID Card Number"
+// @Param full_name formData string true "Full Name"
+// @Param address formData string true "Address"
+// @Param alibi formData string true "Alibi"
+// @Success 201 {object} map[string]interface{} "Success Create Suspect"
+// @Failure 400 {object} map[string]interface{} "Bad Request"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/{id_case}/suspects [post]
 func (c *Suspect_Controller) Create(ctx *gin.Context) {
 
 	ID_Case := ctx.Param("id_case")
@@ -65,6 +79,14 @@ func (c *Suspect_Controller) Create(ctx *gin.Context) {
 
 }
 
+// @Summary Get all suspects
+// @Description Retrieve all suspects for a specific case
+// @Tags Suspects
+// @Produce json
+// @Param id_case path string true "Case ID (UUID)"
+// @Success 200 {object} map[string]interface{} "Success Get Suspect Data"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/{id_case}/suspects [get]
 func (c *Suspect_Controller) GetAll(ctx *gin.Context) {
 
 	ID_Case := ctx.Param("id_case")
@@ -93,6 +115,15 @@ func (c *Suspect_Controller) GetAll(ctx *gin.Context) {
 
 }
 
+// @Summary Get suspect by ID
+// @Description Retrieve a specific suspect from a case
+// @Tags Suspects
+// @Produce json
+// @Param id_case path string true "Case ID (UUID)"
+// @Param id path string true "Suspect ID (UUID)"
+// @Success 200 {object} map[string]interface{} "Success Get Suspect Data"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/{id_case}/suspects/{id} [get]
 func (c *Suspect_Controller) GetById(ctx *gin.Context) {
 
 	ID_Case := ctx.Param("id_case")
@@ -123,6 +154,21 @@ func (c *Suspect_Controller) GetById(ctx *gin.Context) {
 
 }
 
+// @Summary Update suspect data
+// @Description Update an existing suspect information
+// @Tags Suspects
+// @Accept application/x-www-form-urlencoded
+// @Produce json
+// @Param id_case path string true "Case ID (UUID)"
+// @Param id path string true "Suspect ID (UUID)"
+// @Param id_card_number formData string true "ID Card Number"
+// @Param full_name formData string true "Full Name"
+// @Param address formData string true "Address"
+// @Param alibi formData string true "Alibi"
+// @Success 200 {object} map[string]interface{} "Success Update Suspect Data"
+// @Failure 400 {object} map[string]interface{} "Bad Request"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/{id_case}/suspects/{id} [put]
 func (c *Suspect_Controller) Update(ctx *gin.Context) {
 
 	ID_Case := ctx.Param("id_case")
@@ -172,6 +218,15 @@ func (c *Suspect_Controller) Update(ctx *gin.Context) {
 
 }
 
+// @Summary Delete suspect
+// @Description Delete a suspect from a case
+// @Tags Suspects
+// @Produce json
+// @Param id_case path string true "Case ID (UUID)"
+// @Param id path string true "Suspect ID (UUID)"
+// @Success 200 {object} map[string]interface{} "Success Delete Suspect Data"
+// @Failure 500 {object} map[string]interface{} "Internal Server Error"
+// @Router /api/cases/{id_case}/suspects/{id} [delete]
 func (c *Suspect_Controller) Delete(ctx *gin.Context) {
 
 	ID_Case := ctx.Param("id_case")

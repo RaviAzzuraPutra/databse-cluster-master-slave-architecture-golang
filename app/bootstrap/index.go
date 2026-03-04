@@ -8,9 +8,12 @@ import (
 	"databse-cluster-master-slave-architecture-golang/app/registry/suspect_registry"
 	"databse-cluster-master-slave-architecture-golang/app/router/cases_router"
 	"databse-cluster-master-slave-architecture-golang/app/router/suspect_router"
+	_ "databse-cluster-master-slave-architecture-golang/docs"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func InitAPP() {
@@ -26,6 +29,8 @@ func InitAPP() {
 			"Message": "The application is running well. 💮",
 		})
 	})
+
+	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	CasesModule := cases_registry.Case_Registry()
 	SuspectModule := suspect_registry.Suspect_Registry()
